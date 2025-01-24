@@ -48,7 +48,19 @@
 
 % Problem Sections
 \section*{Problem 1}
-% Write your solution for Problem 1 here.
+\textbf{Definition 1.} $a \mid b$ \textit{("a divides b") if and only if there exists some 
+integer $k$ such that $b = ak$. Equivalently, $a \mid b$ if and only if $b$ has a 
+remainder of $0$ when divided by $a$ (see question 2).}
+
+\begin{enumerate}
+    \item Using the formal definition of divisibility above, prove that there exists positive integers $a$, $b$, and $c$ such that $a \mid bc$, but $a \nmid b$ and $a \nmid c$. \\ \\ \textbf{Theorem 1}. \textit{The Division Algorithm. For any integers $a$ and $b$ where $b \neq 0$, there exist a unique pair of integers $q$ and $r$ such that $a = qb + r$ and $0 \leq r \leq b$.  The integers $q$ and $r$ are known as the quotient and remainder of $a \div b$, respectively.}
+
+    \item Using the formal definition of the remainder above, prove that if $n$ and $m$ are positive integers such that $n$ has a remainder of $r$ when divided by $m$ and $r < \sqrt{m}$, $n^2$ has a remainder of $r^2$ when divided by $m$.
+
+    \item Use the formal definition of Big-Oh to prove that if $f(n) = n^x + an^y$, where $a$, $x$, and $y$ are positive integers such that $x > y$, $f(n) = O(n^x)$.
+
+    \item Use the formal definition of Big-Omega to prove that if $f_1(n)$, $f_2(n)$, $g_1(n)$, and $g_2(n)$ are functions such that $f_1(n) = \Omega(g_1(n))$ and $f_2(n) = \Omega(g_2(n))$, $f_1(n) + f_2(n) = \Omega(\max(g_1(n), g_2(n)))$.
+\end{enumerate}
 
 
 \end{document}
