@@ -4,7 +4,7 @@
 \newcommand{\classname}            {CS590-A Algorithms   }
 \newcommand{\professorname}        {Dr. William Hendrix  }
 \newcommand{\assignmentdescription}{Homework 1 Algorithms}
-\newcommand{\duedate}              {January 22, 2025     }
+\newcommand{\duedate}              {January 30, 2025     }
 
 \title{\classname \\ \assignmentdescription}
 \author{\studentname}
@@ -18,24 +18,18 @@
 \geometry{margin=1in}
 \usepackage{fancyhdr}
 \usepackage{datetime}
+\usepackage{pgfplots}
 
 % Header and Footer setup
-% \pagestyle{fancy}
-% \fancyhf{}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 \setlength{\headheight}{14.49998pt}
 \addtolength{\topmargin}{-2.49998pt}
-% \rhead{\thepage}
+
+\pgfplotsset{width=10cm,compat=1.18}
 
 % Document Start
 \begin{document}
-
-% Title Section
-% \begin{center}
-%     \Large \textbf{Homework Template} \\ [10pt]
-% \end{center}
-% \vspace{0.5cm}
 
 \noindent
 \normalsize \textbf{Student:     \studentname} \\ [5pt]
@@ -48,19 +42,28 @@
 
 % Problem Sections
 \section*{Problem 1}
-\textbf{Definition 1.} $a \mid b$ \textit{("a divides b") if and only if there exists some 
-integer $k$ such that $b = ak$. Equivalently, $a \mid b$ if and only if $b$ has a 
-remainder of $0$ when divided by $a$ (see question 2).}
+\textbf{Definition 1.} $a \mid b$ \textit{("a divides b") if and only if there exists some integer $k$ such that $b = ak$. Equivalently, $a \mid b$ if and only if $b$ has a remainder of $0$ when divided by $a$ (see question 2).}
 
 \begin{enumerate}
-    \item Using the formal definition of divisibility above, prove that there exists positive integers $a$, $b$, and $c$ such that $a \mid bc$, but $a \nmid b$ and $a \nmid c$. \\ \\ \textbf{Theorem 1}. \textit{The Division Algorithm. For any integers $a$ and $b$ where $b \neq 0$, there exist a unique pair of integers $q$ and $r$ such that $a = qb + r$ and $0 \leq r \leq b$.  The integers $q$ and $r$ are known as the quotient and remainder of $a \div b$, respectively.}
+    \item Using the formal definition of divisibility above, prove that there exist positive integers $a$, $b$, and $c$ such that $a \mid bc$, but $a \nmid b$ and $a \nmid c$.
+
+    \item[] \textbf{Proof.} Let $a = 6$, $b = 2$, and $c = 3$. Then $bc = 6$ and $a \mid bc$ since $6 = 6 \cdot 1$. However, $a \nmid b$ and $a \nmid c$ since $2 = 6 \cdot 0 + 2$ and $3 = 6 \cdot 0 + 3$. $\blacksquare$
+
+    \item[] \textbf{Theorem 1}. \textit{The Division Algorithm. For any integers $a$ and $b$ where $b \neq 0$, there exist a unique pair of integers $q$ and $r$ such that $a = qb + r$ and $0 \leq r \leq b$.  The integers $q$ and $r$ are known as the quotient and remainder of $a \div b$, respectively.}
 
     \item Using the formal definition of the remainder above, prove that if $n$ and $m$ are positive integers such that $n$ has a remainder of $r$ when divided by $m$ and $r < \sqrt{m}$, $n^2$ has a remainder of $r^2$ when divided by $m$.
 
+    \item[] \textbf{Proof.}
+        
     \item Use the formal definition of Big-Oh to prove that if $f(n) = n^x + an^y$, where $a$, $x$, and $y$ are positive integers such that $x > y$, $f(n) = O(n^x)$.
+
+    Solution.  if $f(n) = n^x + an^y$, where $a$, $x$, and $y$ are positive integers such that $x > y$, $f(n) = O(n^x)$. This is because as $n$ approaches infinity, $f(n)$ is bounded above by $n^x$ since $x > y$. 
+        
+    \textit{Big-Oh is defined as $f(n) = O(g(n))$ if there exists a positive constant $c$ and a positive integer $n_0$ such that $f(n) \leq cg(n)$ for all $n \geq n_0$.}
+
+    \textbf{Solution}. In this case, $f(n) = n^x + an^y$ and $g(n) = n^x$. Let us assume y = x. Then $f(n) = n^x + an^x$ which can be reduced to $f(n) = n^x(1 + a)$.  Let $1+a = c$ and $n_0 = 1$ to establish the upper bound. Then $f(n) = n^x(1 + a) \leq cn^x$ for all $n \geq n_0$. Therefore, $f(n) = O(n^x)$. $\blacksquare$
 
     \item Use the formal definition of Big-Omega to prove that if $f_1(n)$, $f_2(n)$, $g_1(n)$, and $g_2(n)$ are functions such that $f_1(n) = \Omega(g_1(n))$ and $f_2(n) = \Omega(g_2(n))$, $f_1(n) + f_2(n) = \Omega(\max(g_1(n), g_2(n)))$.
 \end{enumerate}
-
 
 \end{document}
