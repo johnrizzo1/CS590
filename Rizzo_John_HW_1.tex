@@ -4,7 +4,7 @@
 \newcommand{\classname}            {CS590-A Algorithms   }
 \newcommand{\professorname}        {Dr. William Hendrix  }
 \newcommand{\assignmentdescription}{Homework 1 Algorithms}
-\newcommand{\duedate}              {January 30, 2025     }
+\newcommand{\duedate}              {January 31, 2025     }
 
 \title{\classname \\ \assignmentdescription}
 \author{\studentname}
@@ -53,17 +53,27 @@
 
     \item Using the formal definition of the remainder above, prove that if $n$ and $m$ are positive integers such that $n$ has a remainder of $r$ when divided by $m$ and $r < \sqrt{m}$, $n^2$ has a remainder of $r^2$ when divided by $m$.
 
-    \item[] \textbf{Proof.}
+    \item[] \textbf{Proof.} Let $n$, and $m$ be positive integers such that $n \div m$ has a remainder $r$.
+    
+    By Theorem 1, $m = qn + r$ and $m = qn^2 + r^2$.  
+    
+    $\sqrt{m} = \sqrt{qn^2 + r^2}$
+    
+    $\sqrt{m} = \sqrt{qn^2} + \sqrt{r^2}$
+    
+    $\sqrt{m} = n\sqrt{q} + r$.
         
     \item Use the formal definition of Big-Oh to prove that if $f(n) = n^x + an^y$, where $a$, $x$, and $y$ are positive integers such that $x > y$, $f(n) = O(n^x)$.
 
-    Solution.  if $f(n) = n^x + an^y$, where $a$, $x$, and $y$ are positive integers such that $x > y$, $f(n) = O(n^x)$. This is because as $n$ approaches infinity, $f(n)$ is bounded above by $n^x$ since $x > y$. 
-        
     \textit{Big-Oh is defined as $f(n) = O(g(n))$ if there exists a positive constant $c$ and a positive integer $n_0$ such that $f(n) \leq cg(n)$ for all $n \geq n_0$.}
 
     \textbf{Solution}. In this case, $f(n) = n^x + an^y$ and $g(n) = n^x$. Let us assume y = x. Then $f(n) = n^x + an^x$ which can be reduced to $f(n) = n^x(1 + a)$.  Let $1+a = c$ and $n_0 = 1$ to establish the upper bound. Then $f(n) = n^x(1 + a) \leq cn^x$ for all $n \geq n_0$. Therefore, $f(n) = O(n^x)$. $\blacksquare$
 
     \item Use the formal definition of Big-Omega to prove that if $f_1(n)$, $f_2(n)$, $g_1(n)$, and $g_2(n)$ are functions such that $f_1(n) = \Omega(g_1(n))$ and $f_2(n) = \Omega(g_2(n))$, $f_1(n) + f_2(n) = \Omega(\max(g_1(n), g_2(n)))$.
+
+    \textbf{Solution}. Big Omega is defined as $f(n) = \Omega(g(n))$ if there exists a positive constant $c$ and a positive integer $n_0$ such that $f(n) \geq cg(n)$ for all $n \geq n_0$.
+
+    For $f_1(n)$, $n \geq c_1n$ for say $n_0=0$ and $c_1=0.5$. The same is true for $f_2(n)$ and $g_2(n)$  All of the functions are separated by a constant factor.  Given that $f_1(n)$ and $f_2(n)$ were both larger than $g_1(n)$ and $g_2(n)$ the sum of the two must be larger than the maximum of either $g_1(n)$ or $g_2(n)$.$\blacksquare$
 \end{enumerate}
 
 \end{document}
