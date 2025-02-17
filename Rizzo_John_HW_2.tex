@@ -1,0 +1,223 @@
+\documentclass[12pt, letterpaper]{article}
+% Custom Commands for User Info
+\newcommand{\studentname}          {John Rizzo           }
+\newcommand{\classname}            {CS590-A Algorithms   }
+\newcommand{\professorname}        {Dr. William Hendrix  }
+\newcommand{\assignmentdescription}{Homework 2 Algorithms}
+\newcommand{\duedate}              {February 17, 2025     }
+
+\title{\classname \\ \assignmentdescription}
+\author{\studentname}
+\date{\duedate}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+\usepackage{pgfplots}
+
+% Header and Footer setup
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+
+\pgfplotsset{width=10cm,compat=1.18}
+
+% Document Start
+\begin{document}
+
+\noindent
+\normalsize \textbf{Student:     \studentname} \\ [5pt]
+            \textbf{Course:      \classname} \\ [5pt]
+            \textbf{Instructor:  \professorname} \\ [5pt]
+            \textbf{Due Date:    \duedate} \\ [5pt]
+            \textbf{Description: \assignmentdescription}
+
+\vspace{0.5cm}
+
+% Problem Sections
+\section*{Problem 1}
+
+Analyze the \textit{worst-case} time complexity of the LoopMystery algorithm below.
+Please show all work.  The $\lfloor \rfloor$ symbols represent the \textit{floor}
+("round down") function. You may assume that this function takes $\Theta(1)$ time for any
+input.  You may also assume it takes a constant amount of time to determine whether an
+integer is odd.
+
+\vspace{0.5cm}
+
+\noindent
+Note that figuring out what problem this algorithm solves is \textit{irrelevant} to analyzing its complexity.
+
+\vspace{0.5cm}
+
+\fbox {
+    \begin{minipage}{\textwidth}
+        \paragraph{Input}: n: nonnegative integer \\
+        1 \textbf{Algorithm}: LoopMystery \\
+        2 \textit{sum} = 0 \\
+        3 \textit{$t$} = 1 \\
+        4 \textit{$d$} = 1 \\
+        5 \textit{$k$} = $n$ \\
+        6 \textbf{while} \textit{$k$} $>$ 1 \textbf{do} \\
+        7   \hspace*{4mm} \textbf{for} $i = 1$ to $k$ \textbf{do} \\
+        8       \hspace*{8mm} $t = t + d$ \\
+        9       \hspace*{8mm} $sum = sum + t$ \\
+        10  \hspace*{4mm} \textbf{end} \\
+        11  \hspace*{4mm} \textbf{if} $k$ is \textit{odd} \textbf{then} \\
+        12      \hspace*{8mm} $d = -d$ \\
+        13  \hspace*{4mm} \textbf{end} \\
+        14  \hspace*{4mm} $k = \lfloor k/2 \rfloor$ \\
+        15 \textbf{end} \\
+        16 \textbf{return} \textit{sum} \\
+    \end{minipage}
+}
+
+\begin{enumerate}
+    \item lines 1-5 are simple constant time assignment operations
+    \item lines 7-10 is the first inner loop with lines 8, 9 being constant time and since
+        $k = \lfloor k/2 \rfloor$ using the ... approach if you choose you can see that
+        
+        $(n - 1) + \frac{(n-1)}{2} + \frac{(n-1)}{4}$.
+        
+        $(n - 1) ( \frac{1}{2} + \frac{1}{4} )$
+        
+        For large numbers of $n$ it will dominate the fraction.  Based on this sequence you can see that this 
+        is a sum of iterations that matches $T(n) = \sum_{i=1}^{n}{\frac{1}{2^i}}$ = $\Theta(1)$
+    \item lines 11-13 is a simple conditional which should be constant time.
+    \item lines 6-16 is the largest outter loop will be dominated by the first inner loop
+\end{enumerate}
+
+\textbf{Answer} $T(n) = \sum_{i=1}^{n}{\frac{1}{2^i}}$ = $\Theta(1)$
+
+\section*{Problem 2}
+
+Find a recurrence $T(n)$ that describes the runtime of the RecursionMystery algorithm below:
+
+\vspace{0.5cm}
+
+\fbox {
+    \begin{minipage}{\textwidth}
+        \paragraph{Input}: data: array of integers
+        \paragraph{Input}: n: size of data \\
+        01 \textbf{Algorithm}: RecursionMystery \\
+        02 \textbf{if} $n>1$ \textbf{then} \\
+        03  \hspace*{4mm} $\textit{min} = \textit{max} = 1$ \\
+        04  \hspace*{4mm} \textbf{for} $i=2$ to $n$ \textbf{do} \\
+        05      \hspace*{8mm} \textbf{if} $data[i] < data[min]$ \textbf{then} \\
+        06          \hspace*{12mm} $min = i$ \\
+        07      \hspace*{8mm} \textbf{end} \\
+        08      \hspace*{8mm} \textbf{if} $data[i] > data[max]$ \textbf{then} \\
+        09          \hspace*{12mm} $max = i$ \\
+        10      \hspace*{8mm} \textbf{end} \\
+        11  \hspace*{4mm} \textbf{end} \\
+        12  \hspace*{4mm} Swap $data[1]$ and $data[min]$ \\
+        13  \hspace*{4mm} \textbf{if} $max > 1$ \textbf{then} \\
+        14      \hspace*{8mm} Swap $data[n]$ and $data[max]$ \\
+        15  \hspace*{4mm} \textbf{else} \\
+        16      \hspace*{8mm} Swap $data[min]$ and $data[max]$ \\
+        17  \hspace*{4mm} \textbf{end} \\
+        18  \hspace*{4mm} \textbf{if} $n>2$ \textbf{then} \\
+        19      \hspace*{8mm} Call RecursionMystery on $data[2..n-1]$ \\
+        20  \hspace*{4mm} \textbf{end} \\
+        21 \textbf{end} \\
+        22 \textbf{return} \textit{data}
+    \end{minipage}
+}
+
+\begin{enumerate}
+    \item lines 1-3,12-17,21-22 are constant time
+    \item lines 4-11 is a non-recursive loop which will occur a max of $n-1$ times
+    \item lines 19 has the only recursive call which will occur a maximum of n-2 times. For example if $n=6$ then \\
+        2..6-1, 2..6-2, 2..6-3 and so on.  This matches $\sum_{i=l}^{n}{i} = \Theta(x^2)$
+\end{enumerate}
+
+\textbf{Answer} $T(n) = \Theta(x^2)$
+
+\section*{Problem 3}
+
+Sketch the recurrence tree that corresponds to the recurrence $T(n) = 4T(\frac{n}{2}) + \Theta(1)$
+
+\hspace*{1mm}$T(\frac{n}{2})$ \hspace*{12mm}$\Theta(1)$
+
+\hspace*{2mm}$\frac{n}{4}$\hspace*{5mm}$\frac{n}{4}$ \hspace*{8mm}$2\Theta(1)$
+
+$\frac{n}{8}$ $\frac{n}{8}$ $\frac{n}{8}$ $\frac{n}{8}$ \hspace*{6mm}$4\Theta(1)$
+
+and so on...
+
+Height: $2^n\Theta(1)$
+
+Total Complexity: $\sum_{i=1}^{n}\Theta(1)$
+
+At each level it most closely match a multiple of $\Theta(1)$
+
+\section*{Problem 4}
+
+Find a recurrence that describes the worst-case complexity of the Third-Sort algorithm below.  Show all work.
+You may assume that the floor function ($\lfloor$ $\rfloor$) takes constant time.
+
+\fbox {
+    \begin{minipage}{\textwidth}
+        \paragraph{Input}: data: array of integers
+        \paragraph{Input}: n: the length of data \\
+        \textbf{Output} a permutation of data such that $data[1] \leq data[2] \leq ... \leq data[n]$ \\
+        \textbf{c} 01 \textbf{Algorithm}: ThirdSort \\
+        \textbf{c} 02 \textbf{if} $n=1$ \textbf{then} \\
+        \textbf{c} 03  \hspace*{4mm}\textbf{return} $data$ \\
+        \textbf{c} 04 \textbf{else if} $n=2$ \textbf{then} \\
+        \textbf{c} 05  \hspace*{4mm}\textbf{if} $data[1] > data[2]$ \textbf{then} \\ 
+        \textbf{c} 06      \hspace*{8mm}Swap $data[1]$ and $data[2]$ \\
+        \textbf{c} 07  \hspace*{4mm}\textbf{end} \\
+        \textbf{c} 08  \hspace*{4mm}\textbf{return} data \\
+        \textbf{c} 09 \textbf{else} \\
+        \textbf{c} 10  \hspace*{4mm}$third = \lfloor\frac{n}{3}\rfloor$ \\
+        \textbf{T}$(\frac{2n}{3})$ 11  \hspace*{4mm} Call ThirdSort on $data[1..n-third]$ \\
+        \textbf{T}$(\frac{2n}{3})$ 12  \hspace*{4mm} Call ThirdSort on $data[third+1..n]$ \\
+        \textbf{T}$(\frac{2n}{3})$ 13  \hspace*{4mm} Call ThirdSort on $data[1..n-third]$ \\
+        \textbf{c} 14  \hspace*{4mm} \textbf{return} $data$ \\
+        \textbf{c} 15 \textbf{end}
+    \end{minipage}
+}
+
+$T(n) = 3T(\frac{2n}{3})) + f(n)$ which in this case f(n) occurs $n$ times which is $\Theta(lg(n))$
+
+\textbf{Answer} $T(n) = 3\Theta(lg(n)) + \Theta(lg(n)))$
+
+\section*{Problem 5}
+
+Use the Master Theorem to find the worst-case complexity of ThirdSort.  You may assume that $f(n)$ is
+regular if relevant.  Recall that $log_a(b) = \frac{ln(b)}{ln(a)}$ (you may need a calculator for this one).
+Be sure to include the value of $c$ and the case of the Master Theorem in your answer.
+
+\noindent
+$T(n) = aT(\frac{n}{b}) + f(n)$
+
+\noindent
+$\frac{n}{b}$ is the size of recursive calls
+
+\noindent
+$a$ is the  number of recursive calls, possibly equal to $b$ 
+
+\noindent
+$f(n)$ is the time for other code
+
+\noindent
+From Problem 4, $T(n) = 3\Theta(lg(n)) + \Theta(lg(n)) = 4\Theta(lg(n))$, which means $a = 4$ and $b = 2$
+
+\noindent
+\textbf{Answer} 
+
+\noindent
+$c = log_b(a) = \frac{ln(b)}{ln(a)} = log_2(4) = \frac{ln(4)}{ln(2)} = \frac{2}{1} = 2$
+
+\noindent
+Given that $n^c = n^2$, and it is greater than $\Theta(lg(n))$, $T(n)$ is $\Theta(n^c)$
+
+\end{document}
+
