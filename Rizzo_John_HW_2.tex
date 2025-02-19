@@ -185,9 +185,9 @@ You may assume that the floor function ($\lfloor$ $\rfloor$) takes constant time
     \end{minipage}
 }
 
-$T(n) = 3T(\frac{2n}{3})) + f(n)$ which in this case f(n) occurs $n$ times which is $\Theta(lg(n))$
+$T(n) = 3T(\frac{2n}{3})) + f(n)$ which in this case f(n) occurs $n$ times which is $O(1)$
 
-\textbf{Answer} $T(n) = 3\Theta(lg(n)) + \Theta(lg(n)))$
+\textbf{Answer} $T(n) = 3T(\frac{2n}{3}) + O(1)$
 
 \section*{Problem 5}
 
@@ -208,16 +208,17 @@ $a$ is the  number of recursive calls, possibly equal to $b$
 $f(n)$ is the time for other code
 
 \noindent
-From Problem 4, $T(n) = 3\Theta(lg(n)) + \Theta(lg(n)) = 4\Theta(lg(n))$, which means $a = 4$ and $b = 2$
+From Problem 4, $T(n) = 3\Theta(\frac{2n}{3})$, which means $a = 3$ and $b = \frac{3}{\frac{1}{2}} = 3 \times 0.5 = 1.5$
+
+\noindent
+$c = log_b(a) = \frac{ln(b)}{ln(a)} = log_{1.5}(3) = \frac{ln(1.5)}{ln(3)} = 0.37$
 
 \noindent
 \textbf{Answer} 
 
-\noindent
-$c = log_b(a) = \frac{ln(b)}{ln(a)} = log_2(4) = \frac{ln(4)}{ln(2)} = \frac{2}{1} = 2$
+Since $f(n)$ = $O(1)$ and $n^c = n^{0.37}$, $f(n) < n^c$ for large n, therefore $\Theta(n^c)$
 
 \noindent
-Given that $n^c = n^2$, and it is greater than $\Theta(lg(n))$, $T(n)$ is $\Theta(n^c)$
 
 \end{document}
 
