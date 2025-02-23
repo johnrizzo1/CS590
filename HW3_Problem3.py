@@ -19,13 +19,17 @@ class BinarySearchTree:
             self._insert(self.root, key)
 
     def _insert(self, root, key):
-        # if key < root.min.val:
-            # root.min = key
-            
         if key < root.val:
             if root.left is None:
                 root.left = Node(key, root)
                 root.min = root.left
+
+                parent = root
+                while parent is not None:
+                    if parent.min.val > key:
+                        parent.min = root.left
+                    parent = parent.parent
+
                 self._increment_ancestors(root.left)
             else:
                 self._insert(root.left, key)
