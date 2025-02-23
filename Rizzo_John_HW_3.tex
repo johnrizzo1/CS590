@@ -1,0 +1,152 @@
+\documentclass[12pt, letterpaper]{article}
+% Custom Commands for User Info
+\newcommand{\studentname}          {John Rizzo           }
+\newcommand{\classname}            {CS590-A Algorithms   }
+\newcommand{\professorname}        {Dr. William Hendrix  }
+\newcommand{\assignmentdescription}{Homework 3 Algorithms}
+\newcommand{\duedate}              {February 27, 2025     }
+
+\title{\classname \\ \assignmentdescription}
+\author{\studentname}
+\date{\duedate}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+
+\usepackage{pgfplots}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% \usepackage{algpseudocode}
+
+\usepackage{blindtext}
+
+% Header and Footer setup
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+
+\pgfplotsset{width=10cm,compat=1.18}
+
+% Document Start
+\begin{document}
+
+\noindent
+\normalsize \textbf{Student:     \studentname} \\ [5pt]
+            \textbf{Course:      \classname} \\ [5pt]
+            \textbf{Instructor:  \professorname} \\ [5pt]
+            \textbf{Due Date:    \duedate} \\ [5pt]
+            \textbf{Description: \assignmentdescription}
+
+\vspace{0.5cm}
+
+% Problem Sections
+\section*{Problem 1}
+
+What new field(s) does the data structure need?
+
+\vspace{0.5cm}
+\noindent
+The new solution requires that the root node is augmented to store the minimum value, such as in node.minval.
+
+\section*{Problem 2}
+
+Give pseudocode for the min operation for the BST.
+\begin{algorithm}
+    \caption{BST.min()}
+    \begin{minipage}{\textwidth}
+        \textbf{Output}: The minimum value in the tree
+        \begin{algorithmic}[1]
+            \STATE node = root
+            \IF{node $\neq$ NIL}
+                \RETURN node.minval
+            \ENDIF
+        \end{algorithmic}
+    \end{minipage}
+\end{algorithm}
+
+\break
+\section*{Problem 3}
+
+Give pseudocode for the insert operation.  Reference pseudocode for the insert method appears below.
+
+\begin{algorithm}
+    \caption{BST.insert()}
+    \begin{minipage}{\textwidth}
+        \begin{algorithmic}[1]
+            \STATE $node = root$
+            \WHILE{$node \neq NIL$}
+                \IF{$node.value \leq new$}
+                    \IF{$node.left = NIL$}
+                        \STATE Add $new$ as left child of $node$ \\
+                        \STATE $node = node.left$
+                    \ELSE
+                        \STATE $node = node.left$
+                    \ENDIF
+                    \IF{$root.minval > node.value$}
+                        \STATE $root.minval = node.value$
+                    \ENDIF
+                \ELSE
+                    \IF{$node.right = NIL$}
+                        \STATE Add $new$ as right child of $node$ \\
+                        $node = node.right$
+                    \ELSE
+                        \STATE $node = node.right$
+                    \ENDIF
+                \ENDIF
+            \ENDWHILE
+        \end{algorithmic}
+    \end{minipage}
+\end{algorithm}
+
+\break
+\section*{Problem 4}
+
+\begin{algorithm}
+    \caption{BST.delete(node)}
+    \begin{minipage}{\textwidth}
+        \begin{algorithmic}[1]
+            \IF{$node$ has two children}
+                \STATE $swapnode = right$
+                \WHILE{$swapnode$ has a left $child$}
+                    \STATE $swapnode = swapnode.left$
+                \ENDWHILE
+                \STATE Swap node's parent and children links with $swapnode$
+                \IF{$node$ is the BST $root$}
+                    \STATE Set root to be $swapnode$
+                \ENDIF
+            \ENDIF
+            \IF{$node$ has no children}
+                \IF{$node$ is the root}
+                    \STATE Set root to be NIL
+                \ELSE
+                    \STATE Set node.parent's child to be NIL
+                \ENDIF
+            \ELSE
+                \STATE // $node$ must have one child
+                \IF{$node$ is the root}
+                    \STATE Set root to be node's child
+                \ELSE
+                    \STATE Set node.parent's child to be node's child
+                \ENDIF
+                \STATE Set node's child's parent to be node.parent
+            \ENDIF
+        \end{algorithmic}
+    \end{minipage}
+\end{algorithm}
+
+\break
+\section*{Problem 5}
+
+\blindtext
+
+
+\end{document}
+
