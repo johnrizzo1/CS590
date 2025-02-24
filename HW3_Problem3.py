@@ -5,7 +5,6 @@ class Node:
         self.right = None
         self.min = self
         self.val = key
-        self.n_v = 1
 
 class BinarySearchTree:
     def __init__(self):
@@ -14,7 +13,6 @@ class BinarySearchTree:
     def insert(self, key):
         if self.root is None:
             self.root = Node(key)
-            self.root.n_v = 1
         else:
             self._insert(self.root, key)
 
@@ -29,23 +27,13 @@ class BinarySearchTree:
                     if parent.min.val > key:
                         parent.min = root.left
                     parent = parent.parent
-
-                self._increment_ancestors(root.left)
             else:
                 self._insert(root.left, key)
         else:
             if root.right is None:
                 root.right = Node(key, root)
-                self._increment_ancestors(root.right)
             else:
                 self._insert(root.right, key)
-
-    def _increment_ancestors(self, node):
-        if node.parent == None:
-            node.n_v += 1
-        else:
-            node.n_v += 1
-            self._increment_ancestors(node.parent)
 
     def delete(self, key):
         self.root = self._delete(self.root, key)
@@ -65,11 +53,11 @@ class BinarySearchTree:
                 return root.left
 
             temp = self._min_value_node(root.right)
-            # temp.min = root.min
             root.val = temp.val
-            root.n_v -= 1
+            root.parent = temp.parent
             root.right = self._delete(root.right, temp.val)
-
+        
+        root.min = self._min_value_node(root)
         return root
 
     def min(self):
@@ -92,17 +80,6 @@ class BinarySearchTree:
             return self._search(root.left, key)
         return self._search(root.right, key)
 
-    def inorder(self):
-        return self._inorder(self.root)
-
-    def _inorder(self, root):
-        res = []
-        if root:
-            res = self._inorder(root.left)
-            res.append(root.val)
-            res = res + self._inorder(root.right)
-        return res
-
     def print_tree(self):
         lines, *_ = self._display_aux(self.root)
         for line in lines:
@@ -110,7 +87,8 @@ class BinarySearchTree:
 
     def _display_aux(self, node):
         if node.right is None and node.left is None:
-            line = f'{node.val} (n_v={node.n_v}) (minval={node.min.val})'
+            # line = f'{node.val} (n_v={node.n_v} minval={node.min.val})'
+            line = f'{node.val} (minval={node.min.val})'
             width = len(line)
             height = 1
             middle = width // 2
@@ -118,7 +96,8 @@ class BinarySearchTree:
 
         if node.right is None:
             lines, n, p, x = self._display_aux(node.left)
-            s = f'{node.val} (n_v={node.n_v} (minval={node.min.val}))'
+            # s = f'{node.val} (n_v={node.n_v} minval={node.min.val}))'
+            s = f'{node.val} (minval={node.min.val}))'
             u = len(s)
             first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
             second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
@@ -127,7 +106,8 @@ class BinarySearchTree:
 
         if node.left is None:
             lines, n, p, x = self._display_aux(node.right)
-            s = f'{node.val} (n_v={node.n_v} (minval={node.min.val}))'
+            # s = f'{node.val} (n_v={node.n_v} minval={node.min.val}))'
+            s = f'{node.val} (minval={node.min.val}))'
             u = len(s)
             first_line = s + x * '_' + (n - x) * ' '
             second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '
@@ -136,7 +116,8 @@ class BinarySearchTree:
 
         left, n, p, x = self._display_aux(node.left)
         right, m, q, y = self._display_aux(node.right)
-        s = f'{node.val} (n_v={node.n_v}) (minval={node.min.val})'
+        # s = f'{node.val} (n_v={node.n_v} minval={node.min.val})'
+        s = f'{node.val} (minval={node.min.val})'
         u = len(s)
         first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s + y * '_' + (m - y) * ' '
         second_line = x * ' ' + '/' + (n - x - 1 + u + y) * ' ' + '\\' + (m - y - 1) * ' '
@@ -152,24 +133,9 @@ if __name__ == '__main__':
     bst = BinarySearchTree()
 
     for i in [12, 6, 7, 3, 5, 57, 38, 4]:
-    # for i in [12, 57, 38]:
         bst.insert(i)
         bst.print_tree()
 
-    # print("Deleting 38")
-    # bst.delete(38)
-    # bst.print_tree()
-
-    # print("Deleting 7")
-    # bst.delete(7)
-    # bst.print_tree()
-
-    # print("Deleting 12")
-    # bst.delete(12)
-    # bst.print_tree()
-    
-    # print("Deleting 3")
-    # bst.delete(3)
-    # bst.print_tree()
-
-    print(f"Min: {bst.min()}")
+    bst.delete(12)
+    bst.delete(3)
+    bst.print_tree()
