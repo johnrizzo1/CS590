@@ -137,6 +137,8 @@ Give pseudocode for the insert operation.  Reference pseudocode for the insert m
                     \STATE Set node.parent's child to be node's child
                 \ENDIF
                 \STATE Set node's child's parent to be node.parent
+                \STATE Find the minimum value from the root
+                \STATE Set the root's min to be the minimum value
             \ENDIF
         \end{algorithmic}
     \end{minipage}
@@ -145,8 +147,30 @@ Give pseudocode for the insert operation.  Reference pseudocode for the insert m
 \break
 \section*{Problem 5}
 
-\blindtext
+Give pseudocode for an eficient algorithm for the \textit{top-k} search problem.
+In top-k search, you are given an array of $n$ integers and must return the $k$
+largest integers, where $k$ is generally much smaller than $n$.  Acceptable
+algorithms might be $O(n+klgn)$ or $O(nlgk)$, but not $O(nk)$ or $O(nlgn)$.
+\textit{Hint} use an appropriate data structure!
 
+\begin{algorithm}
+    \caption{top-k Search}
+    \begin{minipage}{\textwidth}
+        \begin{algorithmic}[1]
+            \STATE $heap = \emptyset$
+            \STATE $result = \emptyset$
+            \FOR{$i = 0$ to $n$}
+                \STATE Insert $arr[i]$ into $heap$
+            \ENDFOR
+            \FOR{$i = 1$ to $k+1$}
+                \STATE $max = heap.max()$
+                \STATE $heap.delete(max)$
+                \STATE $result.insert(max)$
+            \ENDFOR
+            \RETURN $result$
+        \end{algorithmic}
+    \end{minipage}
+\end{algorithm}
 
 \end{document}
 

@@ -128,7 +128,7 @@ class BinarySearchTree:
 if __name__ == '__main__':
     bst = BinarySearchTree()
 
-    for i in [12, 6, 7, 3, 5, 57, 38, 4]:
+    for i in [12, 6, 7, 9, 3, 5, 57, 38, 24, 75, 4]:
         bst.insert(i)
         bst.print_tree()
 
