@@ -87,7 +87,6 @@ class BinarySearchTree:
 
     def _display_aux(self, node):
         if node.right is None and node.left is None:
-            # line = f'{node.val} (n_v={node.n_v} minval={node.min.val})'
             line = f'{node.val} (minval={node.min.val})'
             width = len(line)
             height = 1
@@ -96,8 +95,7 @@ class BinarySearchTree:
 
         if node.right is None:
             lines, n, p, x = self._display_aux(node.left)
-            # s = f'{node.val} (n_v={node.n_v} minval={node.min.val}))'
-            s = f'{node.val} (minval={node.min.val}))'
+            s = f'{node.val} (minval={node.min.val})'
             u = len(s)
             first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
             second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
@@ -106,8 +104,7 @@ class BinarySearchTree:
 
         if node.left is None:
             lines, n, p, x = self._display_aux(node.right)
-            # s = f'{node.val} (n_v={node.n_v} minval={node.min.val}))'
-            s = f'{node.val} (minval={node.min.val}))'
+            s = f'{node.val} (minval={node.min.val})'
             u = len(s)
             first_line = s + x * '_' + (n - x) * ' '
             second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '
@@ -116,7 +113,6 @@ class BinarySearchTree:
 
         left, n, p, x = self._display_aux(node.left)
         right, m, q, y = self._display_aux(node.right)
-        # s = f'{node.val} (n_v={node.n_v} minval={node.min.val})'
         s = f'{node.val} (minval={node.min.val})'
         u = len(s)
         first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s + y * '_' + (m - y) * ' '
@@ -137,5 +133,6 @@ if __name__ == '__main__':
         bst.print_tree()
 
     bst.delete(12)
+    bst.delete(6)
     bst.delete(3)
     bst.print_tree()
