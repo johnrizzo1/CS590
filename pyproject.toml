@@ -1,0 +1,12 @@
+[project]
+name = "cs590"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "latex2pydata>=0.4.1",
+    "latexminted>=0.4.0",
+    "latexrestricted>=0.6.2",
+    "pygments>=2.19.1",
+]

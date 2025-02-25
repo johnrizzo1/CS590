@@ -18,14 +18,24 @@
 \geometry{margin=1in}
 \usepackage{fancyhdr}
 \usepackage{datetime}
-
+\usepackage{blindtext}
 \usepackage{pgfplots}
-
-\usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{minted}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
 % \usepackage{algpseudocode}
 
-\usepackage{blindtext}
+% \usepackage[boxed,linesnumbered,vlined]{algorithm2e}
+% \SetStartEndCondition{ }{}{}%
+% \SetKwProg{Fn}{def}{\string:}{}
+% \SetKwProg{Class}{class}{\string:}{}
+% \SetKwFunction{Range}{range}%%
+% \SetKw{KwTo}{in}\SetKwFor{For}{for}{\string:}{}%
+% \SetKwIF{If}{ElseIf}{Else}{if}{:}{elif}{else:}{}%
+% \SetKwFor{While}{while}{:}{fintq}%
+% \AlgoDontDisplayBlockMarkers\SetAlgoNoEnd\SetAlgoNoLine%
+% \DontPrintSemicolon
+% \renewcommand{\forcond}{$i$ \KwTo\Range{$n$}}
 
 % Header and Footer setup
 \renewcommand{\headrulewidth}{0.4pt}
@@ -55,122 +65,175 @@ What new field(s) does the data structure need?
 \vspace{0.5cm}
 \noindent
 The new solution requires that the root node is augmented to store the minimum value, such as in node.minval.
-
 \section*{Problem 2}
 
-Give pseudocode for the min operation for the BST.
-\begin{algorithm}
-    \caption{BST.min()}
-    \begin{minipage}{\textwidth}
-        \textbf{Output}: The minimum value in the tree
-        \begin{algorithmic}[1]
-            \STATE node = root
-            \IF{node $\neq$ NIL}
-                \RETURN node.minval
-            \ENDIF
-        \end{algorithmic}
-    \end{minipage}
-\end{algorithm}
+Give pseudo code for the min operation for the BST.
 
-\break
+% \TitleOfAlgo{BST.min()}
+% \KwOut{The minimum value in the tree}
+% \begin{algorithm}[H]
+%     \Fn{BST.min()}{
+%         node = root \\
+%         \If{node $\neq$ NIL}{
+%             \Return node.minval
+%         }
+%     }
+% \end{algorithm}
+
+\begin{minted}{python}
+    def BST.min():
+        node = root
+        if node != None:
+            return node.minval
+\end{minted}
+
+% \break
 \section*{Problem 3}
 
-Give pseudocode for the insert operation.  Reference pseudocode for the insert method appears below.
+Give pseudo code for the insert operation.  Reference pseudo code for the insert method appears below.
 
-\begin{algorithm}
-    \caption{BST.insert()}
-    \begin{minipage}{\textwidth}
-        \begin{algorithmic}[1]
-            \STATE $node = root$
-            \WHILE{$node \neq NIL$}
-                \IF{$node.value \leq new$}
-                    \IF{$node.left = NIL$}
-                        \STATE Add $new$ as left child of $node$ \\
-                        \STATE $node = node.left$
-                    \ELSE
-                        \STATE $node = node.left$
-                    \ENDIF
-                    \IF{$root.minval > node.value$}
-                        \STATE $root.minval = node.value$
-                    \ENDIF
-                \ELSE
-                    \IF{$node.right = NIL$}
-                        \STATE Add $new$ as right child of $node$ \\
-                        $node = node.right$
-                    \ELSE
-                        \STATE $node = node.right$
-                    \ENDIF
-                \ENDIF
-            \ENDWHILE
-        \end{algorithmic}
-    \end{minipage}
-\end{algorithm}
+\begin{minted}{python}
+    def BST.insert(newvalue, root):
+        node = root
+        while node != None:
+            if node.value <= newvalue:
+                if root.left == None:
+                    root.left = node
+                node = node.left
+                if root.minval > node.value:
+                    root.minval = node.value
+            else:
+                if root.right = None:
+                    node = node.right
+                node = node.right
+\end{minted}
 
 \break
 \section*{Problem 4}
 
-\begin{algorithm}
-    \caption{BST.delete(node)}
-    \begin{minipage}{\textwidth}
-        \begin{algorithmic}[1]
-            \IF{$node$ has two children}
-                \STATE $swapnode = right$
-                \WHILE{$swapnode$ has a left $child$}
-                    \STATE $swapnode = swapnode.left$
-                \ENDWHILE
-                \STATE Swap node's parent and children links with $swapnode$
-                \IF{$node$ is the BST $root$}
-                    \STATE Set root to be $swapnode$
-                \ENDIF
-            \ENDIF
-            \IF{$node$ has no children}
-                \IF{$node$ is the root}
-                    \STATE Set root to be NIL
-                \ELSE
-                    \STATE Set node.parent's child to be NIL
-                \ENDIF
-            \ELSE
-                \STATE // $node$ must have one child
-                \IF{$node$ is the root}
-                    \STATE Set root to be node's child
-                \ELSE
-                    \STATE Set node.parent's child to be node's child
-                \ENDIF
-                \STATE Set node's child's parent to be node.parent
-                \STATE Find the minimum value from the root
-                \STATE Set the root's min to be the minimum value
-            \ENDIF
-        \end{algorithmic}
-    \end{minipage}
-\end{algorithm}
+\begin{minted}{python}
+    def BST.delete(node):
+        if node.left != None and node.right != None:
+            swapnode = right
+            while swapnode.left != None:
+                swapnode = swapnode.left
+            Swap node's parent and children links with swapnode
+            if node is self.root:
+                root = swapnode
+        if node.left == None and node.right == None:
+            if node == self.root:
+                root = None
+            else:
+                node.parent.left = None
+                node.parent.right = None
+        else:
+            # Node must have one child
+            if node == self.root:
+                Set root to be node's child
+            else:
+                set node.parent's child to be node's child
+            Set node's child's parent to be node.parent
+            Find the minimum value from the root node
+            set the root's min to be the minimum value
+\end{minted}
 
 \break
 \section*{Problem 5}
 
-Give pseudocode for an eficient algorithm for the \textit{top-k} search problem.
+Give pseudo code for an efficient algorithm for the \textit{ top k} search problem.
 In top-k search, you are given an array of $n$ integers and must return the $k$
 largest integers, where $k$ is generally much smaller than $n$.  Acceptable
 algorithms might be $O(n+klgn)$ or $O(nlgk)$, but not $O(nk)$ or $O(nlgn)$.
 \textit{Hint} use an appropriate data structure!
 
-\begin{algorithm}
-    \caption{top-k Search}
-    \begin{minipage}{\textwidth}
-        \begin{algorithmic}[1]
-            \STATE $heap = \emptyset$
-            \STATE $result = \emptyset$
-            \FOR{$i = 0$ to $n$}
-                \STATE Insert $arr[i]$ into $heap$
-            \ENDFOR
-            \FOR{$i = 1$ to $k+1$}
-                \STATE $max = heap.max()$
-                \STATE $heap.delete(max)$
-                \STATE $result.insert(max)$
-            \ENDFOR
-            \RETURN $result$
-        \end{algorithmic}
-    \end{minipage}
-\end{algorithm}
+\vspace{0.5em}
+
+\noindent
+Given the following heap data structure, we can implement a top-k search algorithm, which is $O(n+klgn)$.
+
+\begin{minted}{python}
+    class MaxHeap:
+        def __init__(self):
+            self.heap = []
+
+        def insert(self, element):
+            self.heap.append(element)
+            self._heapify_up(len(self.heap) - 1)
+
+        def max(self):
+            if not self.heap:
+                return None
+            return self.heap[0]
+
+        def extract_max(self):
+            if len(self.heap) == 0:
+                return None
+            if len(self.heap) == 1: return self.heap.pop()
+            root = self.heap[0]
+            self.heap[0] = self.heap.pop()
+            self._heapify_down(0)
+            return root
+
+        def _heapify_up(self, index):
+            parent_index = (index - 1) // 2
+            if index > 0 and self.heap[index] > self.heap[parent_index]:
+                self.heap[index], self.heap[parent_index] = 
+                    self.heap[parent_index], self.heap[index]
+                self._heapify_up(parent_index)
+
+        def _heapify_down(self, index):
+            largest = index
+            left_child_index = 2 * index + 1
+            right_child_index = 2 * index + 2
+
+            if left_child_index < len(self.heap) and 
+                self.heap[left_child_index] > self.heap[largest]:
+                    largest = left_child_index
+
+            if right_child_index < len(self.heap) and
+                self.heap[right_child_index] > self.heap[largest]:
+                    largest = right_child_index
+
+            if largest != index:
+                self.heap[index], self.heap[largest] =
+                    self.heap[largest], self.heap[index]
+                self._heapify_down(largest)
+\end{minted}
+
+
+\begin{minted}{python}
+    def topk(arr):
+        heap = 0
+        result = 0
+        
+        for i = 0 to n:
+            heap.insert(arr[i])
+        
+        for i = 1 to (k+1):
+            max = heap.max()
+            heap.delete(max)
+            result.insert(max)
+        
+        return result
+\end{minted}
+
+% \begin{algorithm}
+%     \caption{top-k Search}
+%     \begin{minipage}{\textwidth}
+%         \begin{algorithmic}[1]
+%             \STATE $heap = \emptyset$
+%             \STATE $result = \emptyset$
+%             \FOR{$i = 0$ to $n$}
+%                 \STATE Insert $arr[i]$ into $heap$
+%             \ENDFOR
+%             \FOR{$i = 1$ to $k+1$}
+%                 \STATE $max = heap.max()$
+%                 \STATE $heap.delete(max)$
+%                 \STATE $result.insert(max)$
+%             \ENDFOR
+%             \RETURN $result$
+%         \end{algorithmic}
+%     \end{minipage}
+% \end{algorithm}
 
 \end{document}
-

@@ -1,0 +1,62 @@
+version = 1
+requires-python = ">=3.12"
+
+[[package]]
+name = "cs590"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "latex2pydata" },
+    { name = "latexminted" },
+    { name = "latexrestricted" },
+    { name = "pygments" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "latex2pydata", specifier = ">=0.4.1" },
+    { name = "latexminted", specifier = ">=0.4.0" },
+    { name = "latexrestricted", specifier = ">=0.6.2" },
+    { name = "pygments", specifier = ">=2.19.1" },
+]
+
+[[package]]
+name = "latex2pydata"
+version = "0.4.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e7/82/9cf3815fbbb527f577192f8cfccd5866ca61abfc516d0a4fc0099b7e60f4/latex2pydata-0.4.1.tar.gz", hash = "sha256:f4cb00c333fc8f9da687e6b368491f91a2e60ce056668567afd2e7192bcade69", size = 11709 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ce/f5/d216b74ea6b534b538c255f3d4a2bb81449ff980dc476a1ca4f2bd4e6a56/latex2pydata-0.4.1-py3-none-any.whl", hash = "sha256:67a0cace2d158c6d339e809007ec850375a90c5baa43c587a8844c020817dfdb", size = 12927 },
+]
+
+[[package]]
+name = "latexminted"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "latex2pydata" },
+    { name = "latexrestricted" },
+    { name = "pygments" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2f/fe/339f4fa734a2b2365d8c22cf8b68ed4c0b08572b1ed7fbfb1111e7d64f59/latexminted-0.4.0.tar.gz", hash = "sha256:248e3854602e4830d4066ee11fa86e61dcd778c536ab56428b1c09353c411c7a", size = 28482 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/56/3b/642b4d8e28faa15f5c2a7dec62ecb38882da22a34e48aa16bb98a78d08fb/latexminted-0.4.0-py3-none-any.whl", hash = "sha256:28955ce9db49086f5eae8e37ef3be9a909997cadebfc617aaea05d8aba35b094", size = 34114 },
+]
+
+[[package]]
+name = "latexrestricted"
+version = "0.6.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/69/c2/5174b64463f9530c3d19c47606140b098b2ed6a6cb4ceac8c34b616bafdd/latexrestricted-0.6.2.tar.gz", hash = "sha256:d51d21a41197a581ff29c0f818551f16fa0e6890def929799ac0bde762a7aa60", size = 28504 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3c/9a/b99b0f9516a529efa89e5d1d1abeba620d73beebcceeb5f50f3a01970c8e/latexrestricted-0.6.2-py3-none-any.whl", hash = "sha256:993bcc1c2a0484e95ce8f167bd8ec19de18cc7386cdb2d1f55d839d036eed590", size = 27202 },
+]
+
+[[package]]
+name = "pygments"
+version = "2.19.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7c/2d/c3338d48ea6cc0feb8446d8e6937e1408088a72a39937982cc6111d17f84/pygments-2.19.1.tar.gz", hash = "sha256:61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f", size = 4968581 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8a/0b/9fcc47d19c48b59121088dd6da2488a49d5f72dacf8262e2790a1d2c7d15/pygments-2.19.1-py3-none-any.whl", hash = "sha256:9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c", size = 1225293 },
+]
