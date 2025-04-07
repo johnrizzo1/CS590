@@ -1,0 +1,107 @@
+\documentclass[12pt, letterpaper]{article}
+% Custom Commands for User Info
+\newcommand{\studentname}          {John Rizzo           }
+\newcommand{\classname}            {CS590-A Algorithms   }
+\newcommand{\professorname}        {Dr. William Hendrix  }
+\newcommand{\assignmentdescription}{Homework 5 Algorithms}
+\newcommand{\duedate}              {April 07, 2025     }
+
+\title{\classname \\ \assignmentdescription}
+\author{\studentname}
+\date{\duedate}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+\usepackage{blindtext}
+\usepackage{pgfplots}
+\usepackage{minted}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \usepackage{algpseudocode}
+
+% \usepackage[boxed,linesnumbered,vlined]{algorithm2e}
+% \SetStartEndCondition{ }{}{}%
+% \SetKwProg{Fn}{def}{\string:}{}
+% \SetKwProg{Class}{class}{\string:}{}
+% \SetKwFunction{Range}{range}%%
+% \SetKw{KwTo}{in}\SetKwFor{For}{for}{\string:}{}%
+% \SetKwIF{If}{ElseIf}{Else}{if}{:}{elif}{else:}{}%
+% \SetKwFor{While}{while}{:}{fintq}%
+% \AlgoDontDisplayBlockMarkers\SetAlgoNoEnd\SetAlgoNoLine%
+% \DontPrintSemicolon
+% \renewcommand{\forcond}{$i$ \KwTo\Range{$n$}}
+
+% Header and Footer setup
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+
+\pgfplotsset{width=10cm,compat=1.18}
+
+% Document Start
+\begin{document}
+
+\noindent
+\normalsize \textbf{Student:     \studentname} \\ [5pt]
+            \textbf{Course:      \classname} \\ [5pt]
+            \textbf{Instructor:  \professorname} \\ [5pt]
+            \textbf{Due Date:    \duedate} \\ [5pt]
+            \textbf{Description: \assignmentdescription}
+
+\vspace{0.5cm}
+
+% Problem Sections
+\section*{Problem 1}
+
+An effective iteration order would be to enumerate from 1 to n in ascending order as, with memoization, the calculations would already have been computed and memoized.
+
+\begin{minted}{python}
+for i in range(1, n+1):
+    if i == 1:
+        memo[i] = 1
+    else:
+        memo[i] = memo[i-1] + memo[i-2]
+\end{minted}
+
+\section*{Problem 2}
+
+\begin{minted}{python}
+def MinSquares(n):
+    # dp = new array of size (n + 1)
+    dp[0] = 0 # base case
+    for k from 1 to n:
+        dp[k] = infinity
+        x = 1
+        while x^2 <= k:
+            dp[k] = min(dp[k], 1 + dp[k - x^2])
+            x += 1
+    return dp[n]
+\end{minted}
+
+% \break
+\section*{Problem 3}
+
+I don't believe that the space complexity can be reduced as we are already minimizing the number of calculations which requires each square to be touched from 1 to n.
+
+\break
+\section*{Problem 4}
+
+\begin{minted}{python}
+B[0] = 0
+for i in range(1, n+1):
+    B[i] = max { B[i-1], B[P[i]] + b_i}
+
+# B[n] is the optimal solution
+# printing in reverse gives us the optimal schedule
+for i in range(len(B), 0, -1):
+    print B[i]    
+\end{minted}
+
+\end{document}
