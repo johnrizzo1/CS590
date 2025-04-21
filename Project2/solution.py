@@ -1,5 +1,3 @@
-import sys
-
 def read_board(filename):
     """
     Reads the board configuration from a file.
@@ -44,7 +42,7 @@ def read_board(filename):
 
 def maximum_score(spaces):
     """
-    Calculates the maximum score achievable on the board.
+    Calculates the maximum score achievable on the board using an iterative approach.
     
     Args:
         spaces (list): List of tuples (value, points, neighbors) for each space
@@ -52,31 +50,45 @@ def maximum_score(spaces):
     Returns:
         int: Maximum score achievable
     """
-    # Initialize memoization table
-    memo = {}
-
-    def dfs(space_index):
-        if space_index in memo:
-            return memo[space_index]
-
+    n = len(spaces)
+    # dp[i][j] represents max score starting at space i with previous value j
+    # -1 represents no previous value
+    dp = [-1 for _ in range(n)]
+    for i in range(n):
+        dp[i] = {-1: 0}
+    max_value = max(value for value, _, _ in spaces)
+    
+    def get_score(space_index, prev_value=-1):
+        # If we've already computed this state, return it
+        if dp[space_index] is not -1:
+            return dp[space_index]
+            
         value, points, neighbors = spaces[space_index]
-        max_score = points
-
+        
+        # If current value matches previous value, this path is invalid
+        # if prev_value == value:
+        #     dp[space_index][prev_value] = 0
+        #     return 0
+            
+        # Try all possible paths through neighbors
+        max_score = points  # Start with just this space's points
         for neighbor in neighbors:
-            if spaces[neighbor][0] != value:
-                max_score = max(max_score, points + dfs(neighbor))
-
-        memo[space_index] = max_score
+            neighbor_score = get_score(neighbor, value)
+            max_score = max(max_score, points + neighbor_score)
+            print(f'Space [{space_index}]\'s score: {max_score}')
+            print(f'{space_index}\'s Neighbor: {neighbor}')
+            print(f'Neighbor [{neighbor}]\'s score: {neighbor_score}')
+            
+        dp[space_index][prev_value] = max_score
         return max_score
-
-    # Calculate maximum score for each space and return the maximum
-    return max(dfs(i) for i in range(len(spaces)))
+    
+    # Try starting from each space
+    return max(get_score(i) for i in range(n))
 
 
 if __name__ == "__main__":
     n, spaces = read_board("Project2/example-input.txt")
     print(f"Total spaces: {n}")
-    print("\nFirst few spaces:")
     for i, (value, points, neighbors) in enumerate(spaces, 1):
         print(f"Space {i}:")
         print(f"  Value: {value}")
