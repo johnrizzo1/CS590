@@ -1,153 +1,163 @@
 import java.io.*;
 import java.util.*;
 
-public class Solution {
-    private static class Space {
-        int value;
-        int points;
-        List<Integer> neighbors;
-
-        Space(int value, int points, List<Integer> neighbors) {
-            this.value = value;
-            this.points = points;
-            this.neighbors = neighbors;
-        }
+class Space {
+    int value;
+    int points;
+    int maxPoints;
+    List<Integer> neighbors;
+    
+    public Space(int value, int points, List<Integer> neighbors) {
+        this.value = value;
+        this.points = points;
+        this.maxPoints = 0;
+        this.neighbors = neighbors;
     }
+}
 
-    private static class Board {
-        int n;
-        List<Space> spaces;
-
-        Board(int n, List<Space> spaces) {
-            this.n = n;
-            this.spaces = spaces;
-        }
+class Board {
+    int n;
+    Map<Integer, Space> spaces;
+    
+    public Board() {
+        n = 0;
+        spaces = new HashMap<>();
     }
-
-    /**
-     * Reads the board configuration from a file.
-     * 
-     * @param filename Path to the input file
-     * @return Board object containing the configuration
-     * @throws IOException If file reading fails
-     */
-    private static Board readBoard(String filename) throws IOException {
-        List<Space> spaces = new ArrayList<>();
+    
+    public void readBoard(String filename) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
         
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            // Read total number of spaces
-            int n = Integer.parseInt(reader.readLine().trim());
+        // Read total number of spaces
+        n = Integer.parseInt(reader.readLine().trim());
+        
+        // Read each space configuration
+        for (int i = 0; i < n; i++) {
+            String[] line = reader.readLine().trim().split("\\s+");
             
-            // Read each space configuration
-            String line;
-            while ((line = reader.readLine()) != null && !line.trim().isEmpty()) {
-                String[] parts = line.trim().split("\\s+");
-                int[] numbers = Arrays.stream(parts)
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-                
-                int value = numbers[0];          // Value written in the space
-                int points = numbers[1];         // Points worth (1 or 2)
-                int numNeighbors = numbers[2];   // Number of neighbors
-                
-                // Get neighbors list
-                List<Integer> neighbors = new ArrayList<>();
-                for (int i = 0; i < numNeighbors; i++) {
-                    neighbors.add(numbers[3 + i]);
-                }
-                
-                // Validate number of neighbors
-                if (neighbors.size() != numNeighbors) {
-                    throw new IllegalArgumentException(
-                        String.format("Mismatch in number of neighbors: expected %d, got %d",
-                            numNeighbors, neighbors.size()));
-                }
-                
-                spaces.add(new Space(value, points, neighbors));
+            // Convert all values to integers
+            int[] numbers = new int[line.length];
+            for (int j = 0; j < line.length; j++) {
+                numbers[j] = Integer.parseInt(line[j]);
             }
             
-            return new Board(n, spaces);
+            int spaceValue = numbers[0];     // Value written in the space
+            int points = numbers[1];         // Points worth (1 or 2)
+            int numNeighbors = numbers[2];   // Number of neighbors
+            
+            // Extract neighbors
+            List<Integer> neighbors = new ArrayList<>();
+            for (int j = 3; j < numbers.length; j++) {
+                neighbors.add(numbers[j]);
+            }
+            
+            // Validate number of neighbors matches the specified count
+            if (neighbors.size() != numNeighbors) {
+                throw new IllegalArgumentException("Mismatch in number of neighbors: expected " + 
+                                                  numNeighbors + ", got " + neighbors.size());
+            }
+            
+            Space space = new Space(spaceValue, points, neighbors);
+            spaces.put(space.value, space);
+        }
+        
+        reader.close();
+    }
+    
+    public Space getSpace(int spaceId) {
+        return spaces.get(spaceId);
+    }
+    
+    public void printBoard() {
+        System.out.println("Total spaces: " + n);
+        int i = 1;
+        for (Integer key : spaces.keySet()) {
+            System.out.println("Space " + i + ":");
+            System.out.println("  Value: " + spaces.get(key).value);
+            System.out.println("  Points: " + spaces.get(key).points);
+            System.out.println("  Neighbors: " + spaces.get(key).neighbors);
+            i++;
         }
     }
-
-    /**
-     * Calculates the maximum score achievable on the board using dynamic programming.
-     * 
-     * @param board The board configuration
-     * @return Maximum score achievable
-     */
-    private static int maximumScore(Board board) {
-        int n = board.spaces.size();
-        // dp[i][j] represents max score starting at space i with previous value j
-        // Use HashMap to store only necessary states
-        Map<Integer, Integer>[] dp = new HashMap[n];
-        for (int i = 0; i < n; i++) { dp[i] = new HashMap<>(); }
+    
+    public void writeBoard(String filename) throws IOException {
+        int[] result = maximumScore();
+        int maximumScore = result[0];
+        int[] path = Arrays.copyOfRange(result, 1, result.length);
         
-        // Function to get score for a specific state
-        class ScoreCalculator {
-            int getScore(int spaceIndex, int prevValue) {
-                // If we've already computed this state, return it
-                if (dp[spaceIndex].containsKey(prevValue)) {
-                    System.out.println("Memoized Space[" + spaceIndex + "] score [" + dp[spaceIndex].get(prevValue) + "]");
-                    return dp[spaceIndex].get(prevValue);
-                }
-
-                Space space = board.spaces.get(spaceIndex);
-
-                // If current value matches previous value memoize and return the score
-                if (prevValue == space.value) {
-                    System.out.println("prev=spaceval Space[" + spaceIndex + "] value [" + space.value + "] points [" + space.points + "]");
-                    dp[spaceIndex].put(space.value, space.points);
-                    // return space.points;
-                }
-                
-                System.out.println("Space[" + spaceIndex + "] value [" + space.value + "] points [" + space.points + "]");
-                
-                // Try all possible paths through neighbors
-                int maxScore = space.points;  // Start with just this space's points
-                for (int neighbor : space.neighbors) {
-                    System.out.println("Getting Score for neighbor [" + neighbor + "]");
-                    int neighborScore = getScore(neighbor, space.value);
-                    System.out.println("Neighbor[" + neighbor + "] score [" + neighborScore + "]");
-                    maxScore = Math.max(maxScore, space.points + neighborScore);
-                }
-                
-                System.out.println("Space[" + spaceIndex + "] score [" + maxScore + "]");
-                dp[spaceIndex].put(prevValue, maxScore);
-                return maxScore;
-            }
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        writer.write(String.valueOf(maximumScore));
+        writer.newLine();
+        
+        StringBuilder sb = new StringBuilder();
+        for (int val : path) {
+            sb.append(val).append(" ");
+        }
+        writer.write(sb.toString().trim());
+        writer.newLine();
+        writer.close();
+        
+        System.out.println("\nMaximum score: " + maximumScore);
+        System.out.println(sb.toString().trim());
+    }
+    
+    public int[] maximumScore() {
+        Map<Integer, Integer> dp = new HashMap<>();
+        
+        // Get score function - implemented as a separate method since Java doesn't support nested functions
+        for (Integer spaceId : spaces.keySet()) {
+            getScore(spaces.get(spaceId), dp);
         }
         
         // Try starting from each space
-        ScoreCalculator calculator = new ScoreCalculator();
-        int maxScore = 0;
-        for (int i = 0; i < n; i++) {
-            maxScore = Math.max(maxScore, calculator.getScore(i, -1));
+        List<Integer> pathList = new ArrayList<>();
+        for (Integer spaceId : spaces.keySet()) {
+            pathList.add(getScore(spaces.get(spaceId), dp));
         }
         
+        int max = Collections.max(pathList);
+        
+        // Create result array with max score followed by path
+        int[] result = new int[pathList.size() + 1];
+        result[0] = max;
+        for (int i = 0; i < pathList.size(); i++) {
+            result[i + 1] = pathList.get(i);
+        }
+        
+        return result;
+    }
+    
+    private int getScore(Space space, Map<Integer, Integer> dp) {
+        // If we've already computed this state, return it
+        if (dp.containsKey(space.value)) {
+            return dp.get(space.value);
+        }
+        
+        // Try all possible paths through neighbors
+        int maxScore = space.points;
+        
+        for (Integer neighborId : space.neighbors) {
+            Space neighbor = getSpace(neighborId);
+            if (space.value > neighbor.value) {
+                int neighborScore = getScore(neighbor, dp);
+                maxScore = Math.max(maxScore, space.points + neighborScore);
+            }
+        }
+        
+        dp.put(space.value, maxScore);
         return maxScore;
     }
+}
 
+public class Solution {
     public static void main(String[] args) {
         try {
-            Board board = readBoard("small-input.txt");
-            System.out.printf("Total spaces: %d%n", board.n);
-            
-            // Print first few spaces for verification
-            for (int i = 0; i < board.spaces.size(); i++) {
-                Space space = board.spaces.get(i);
-                System.out.printf("Space %d:%n", i);
-                System.out.printf("  Value: %d%n", space.value);
-                System.out.printf("  Points: %d%n", space.points);
-                System.out.printf("  Neighbors: %s%n", space.neighbors);
-            }
-            
-            int result = maximumScore(board);
-            System.out.printf("%nMaximum score: %d%n", result);
-            
+            Board board = new Board();
+            board.readBoard("small-input.txt");
+            board.printBoard();
+            board.writeBoard("small-output.mine.txt");
         } catch (IOException e) {
-            System.err.println("Error reading input file: " + e.getMessage());
-            System.exit(1);
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
