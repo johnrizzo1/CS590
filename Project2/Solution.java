@@ -18,6 +18,8 @@ class Space {
 class Board {
     int n;
     Map<Integer, Space> spaces;
+    Map<Integer, Integer> parent = new HashMap<>(); // key: current space, value: previous space
+
     
     public Board() {
         n = 0;
@@ -101,52 +103,70 @@ class Board {
     }
     
     public int[] maximumScore() {
-        Map<Integer, Integer> dp = new HashMap<>();
-        
-        // Get score function - implemented as a separate method since Java doesn't support nested functions
-        for (Integer spaceId : spaces.keySet()) {
-            getScore(spaces.get(spaceId), dp);
-        }
-        
-        // Try starting from each space
-        List<Integer> pathList = new ArrayList<>();
-        for (Integer spaceId : spaces.keySet()) {
-            pathList.add(getScore(spaces.get(spaceId), dp));
-        }
-        
-        int max = Collections.max(pathList);
-        
-        // Create result array with max score followed by path
-        int[] result = new int[pathList.size() + 1];
-        result[0] = max;
-        for (int i = 0; i < pathList.size(); i++) {
-            result[i + 1] = pathList.get(i);
-        }
-        
-        return result;
+    Map<Integer, Integer> dp = new HashMap<>();
+    parent.clear(); // make sure it's clean
+
+    // First compute dp for all nodes
+    for (Integer spaceId : spaces.keySet()) {
+        getScore(spaceId, dp);
     }
-    
-    private int getScore(Space space, Map<Integer, Integer> dp) {
-        // If we've already computed this state, return it
-        if (dp.containsKey(space.value)) {
-            return dp.get(space.value);
+
+    // Find the node with the max score
+    int maxScore = 0;
+    int endNode = -1;
+    for (Integer spaceId : spaces.keySet()) {
+        if (dp.get(spaceId) > maxScore) {
+            maxScore = dp.get(spaceId);
+            endNode = spaceId;
         }
-        
-        // Try all possible paths through neighbors
-        int maxScore = space.points;
-        
-        for (Integer neighborId : space.neighbors) {
-            Space neighbor = getSpace(neighborId);
-            if (space.value > neighbor.value) {
-                int neighborScore = getScore(neighbor, dp);
-                maxScore = Math.max(maxScore, space.points + neighborScore);
+    }
+
+    // Reconstruct the path
+    List<Integer> pathList = new ArrayList<>();
+    while (endNode != -1) {
+        pathList.add(endNode);
+        endNode = parent.getOrDefault(endNode, -1);
+    }
+    Collections.reverse(pathList);
+
+    // Prepare result array
+    int[] result = new int[pathList.size() + 1];
+    result[0] = maxScore;
+    for (int i = 0; i < pathList.size(); i++) {
+        result[i + 1] = pathList.get(i);
+    }
+
+    return result;
+}
+    
+    private int getScore(int spaceId, Map<Integer, Integer> dp) {
+    if (dp.containsKey(spaceId)) {
+        return dp.get(spaceId);
+    }
+
+    Space space = getSpace(spaceId);
+    int maxScore = space.points;
+    int bestPrev = -1;
+
+    for (Integer neighborId : space.neighbors) {
+        Space neighbor = getSpace(neighborId);
+        if (neighbor.value > space.value) {
+            int neighborScore = getScore(neighborId, dp);
+            if (space.points + neighborScore > maxScore) {
+                maxScore = space.points + neighborScore;
+                bestPrev = neighborId;
             }
         }
-        
-        dp.put(space.value, maxScore);
-        return maxScore;
     }
+
+    if (bestPrev != -1) {
+        parent.put(spaceId, bestPrev);
+    }
+
+    dp.put(spaceId, maxScore);
+    return maxScore;
 }
+
 
 public class Solution {
     public static void main(String[] args) {
