@@ -42,7 +42,7 @@ public class Solution {
     public static void main(String[] args) {
         try {
             // read node data
-            BufferedReader br = new BufferedReader(new FileReader("example-input.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
             int n = Integer.parseInt(br.readLine());// Total number of nodes
             List<Node> nodeList = new ArrayList<Node>();
 
@@ -88,7 +88,7 @@ public class Solution {
             Collections.reverse(path);
 
             // Write results to output file
-            BufferedWriter bw = new BufferedWriter(new FileWriter("example-output.txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"));
             bw.write(String.valueOf(maxScore));
             bw.newLine();
             for (Node node : path) {
