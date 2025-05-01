@@ -1,3 +1,9 @@
+/*
+ * CS590: Project 3 - Graph modeling and graph algorithms
+ * Student: John Rizzo
+ * Professor: Dr. William Hendricks
+ * Due: May 7, 2025
+ */
 import java.util.*;
 
 public class BoardDFS {
